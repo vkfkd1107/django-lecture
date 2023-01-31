@@ -1,12 +1,13 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.decorators import api_view, action, renderer_classes
+from rest_framework.decorators import api_view, action, renderer_classes, permission_classes
 from rest_framework.viewsets import ModelViewSet
 from instagram.serializers import PostSerializer
 from instagram.models import Post
 from rest_framework import mixins
 from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer
+from rest_framework.permissions import IsAuthenticated
 
 
 class PostViewSet(ModelViewSet):
@@ -53,3 +54,18 @@ def static_html_view(request):
 @api_view(['GET'])
 def hello(request, format=None):
     return Response([])
+
+
+class ExampleView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        content = {'status': 'request was permitted'}
+        return Response(content)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def example_view(request, format=None):
+    content = {'status': 'request was permitted'}
+    return Response(content)

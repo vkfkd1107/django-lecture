@@ -7,7 +7,9 @@ router = DefaultRouter()
 router.register('post', views.PostViewSet)
 
 urlpatterns = [
-    path('', include(router.urls))
+    path('', include(router.urls)),
+    path('example', views.ExampleView.as_view(), name='example'),
+    path('example_view', views.example_view, name='example_view')
     # path('post/', views.PostViewSet.as_view(), name='post'),
     # path('post/<int:pk>', views.PostDetailView.as_view(), name='post'),
     # path('static_html_view', views.static_html_view, name='static_html_view'),
