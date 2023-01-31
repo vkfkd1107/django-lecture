@@ -7,12 +7,17 @@ from instagram.serializers import PostSerializer
 from instagram.models import Post
 from rest_framework import mixins
 from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from instagram.permissions import IsAuthorOrReadonly
+from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    permission_classes = [AllowAny]
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['message']
 
     def perform_create(self, serializer):
         author = self.request.user
@@ -65,7 +70,7 @@ class ExampleView(APIView):
 
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated, IsAuthorOrReadonly])
 def example_view(request, format=None):
     content = {'status': 'request was permitted'}
     return Response(content)
