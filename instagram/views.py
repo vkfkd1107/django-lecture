@@ -10,6 +10,7 @@ from rest_framework.renderers import TemplateHTMLRenderer, StaticHTMLRenderer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from instagram.permissions import IsAuthorOrReadonly
 from rest_framework.filters import SearchFilter, OrderingFilter
+from instagram.throttles import PremiumThrottle
 
 
 class PostViewSet(ModelViewSet):
@@ -18,6 +19,9 @@ class PostViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['message']
+    throttle_classes = [PremiumThrottle]
+    premium_scope = 'premium_user'
+    light_scope = 'light_user'
 
     def perform_create(self, serializer):
         author = self.request.user

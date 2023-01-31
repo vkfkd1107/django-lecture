@@ -138,5 +138,7 @@ REST_FRAMEWORK = {
         'user': '3/day',
         'contact': '3/day',
         'upload': '1/day',
+        'premium_user': '5/day',
+        'light_user': '3/day',
     }
 }
