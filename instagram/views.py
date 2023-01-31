@@ -74,3 +74,30 @@ class ExampleView(APIView):
 def example_view(request, format=None):
     content = {'status': 'request was permitted'}
     return Response(content)
+
+
+class ContactListView(APIView):
+    permission_classes = [AllowAny]
+    throttle_scope = 'contact'
+
+    def get(self, request, format=None):
+        content = {'status': 'contact list view'}
+        return Response(content)
+
+
+class ContactDetailView(APIView):
+    permission_classes = [AllowAny]
+    throttle_scope = 'contact'
+
+    def get(self, request, format=None):
+        content = {'status': 'contact detail view'}
+        return Response(content)
+
+
+class UploadView(APIView):
+    permission_classes = [AllowAny]
+    throttle_scope = 'upload'
+
+    def get(self, request, format=None):
+        content = {'status': 'upload view'}
+        return Response(content)
